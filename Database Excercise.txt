@@ -1,0 +1,63 @@
+# Create Database
+
+create database store;
+
+# Create Tables 
+
+create table users(
+    id int primary key,
+    fullname varchar(20)   ,
+    email varchar(20) unique,
+    gender char(1) check ( gender='f' or gender='m' ),
+    birthdate varchar(15),
+    createdate datetime,
+    countrycode int
+                  );
+
+create table countries(
+    code int primary key,
+    name varchar(20) unique ,
+    continentname varchar(20)not null
+                  );
+
+create table orders(
+    id int primary key,
+    user_id int,
+    foreign key (user_id) references users(id),
+    status char(5) check ( status='start' or status='finish' ),
+    createdate datetime
+                  );
+
+create table products(
+    id int primary key,
+    name varchar(10) not null   ,
+    price int default 0,
+    status varchar(10) check ( status='valid' or status='expired' ),
+    createdate datetime 
+                  );
+
+create table order_products(
+     order_id int ,
+        foreign key (order_id)references orders(id),
+     product_id int ,
+        foreign key (product_id)references products(id),
+     quantity int default 0
+
+                           );
+
+# DML
+
+insert  into countries values  ('966','Saudi Arabia','Asia');
+insert  into users values  ('3','Saleh','s@s.com','m','1/1/1990','2024-12-12 13:23:44','966');
+insert  into orders values  ('1','3','start','2024-12-12 13:23:44');
+insert  into products values  ('1','laptop','500','valid','2024-12-12 13:23:44');
+insert  into order_products values  ('1','2','5');
+
+# DML - Update
+
+update  countries set  name='Saudi Arabia' where code='966';
+
+# DML - Delete
+
+delete from  countries where code='966';
+
